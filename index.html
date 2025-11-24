@@ -619,6 +619,79 @@ body, html {
   }
 }
 
+/* -------------------- HAMBURGER MENU -------------------- */
+
+.hamburger {
+  display: none;
+  flex-direction: column;
+  cursor: pointer;
+  gap: 5px;
+}
+
+.hamburger span {
+  width: 28px;
+  height: 3px;
+  background: white;
+  border-radius: 2px;
+  transition: 0.3s ease;
+}
+
+.nav-wrapper {
+  display: flex;
+  justify-content: space-between !important;
+  align-items: center;
+}
+
+/* Mobile Menu Style */
+#nav-menu {
+  transition: max-height 0.4s ease;
+}
+
+/* -------------------- MOBILE RESPONSIVE -------------------- */
+
+@media (max-width: 768px) {
+
+  .hamburger {
+    display: flex;
+  }
+
+  nav ul {
+    position: absolute;
+    top: 60px;
+    left: 0;
+    right: 0;
+    background: var(--deepblue);
+    flex-direction: column;
+    text-align: center;
+    overflow: hidden;
+    max-height: 0;
+    padding: 0;
+  }
+
+  nav ul li {
+    padding: 10px 0;
+  }
+
+  nav ul.open {
+    max-height: 300px; /* enough height for all menu items */
+    padding: 10px 0;
+  }
+
+  /* Hamburger Animation */
+  .hamburger.active span:nth-child(1) {
+    transform: translateY(8px) rotate(45deg);
+  }
+
+  .hamburger.active span:nth-child(2) {
+    opacity: 0;
+  }
+
+  .hamburger.active span:nth-child(3) {
+    transform: translateY(-8px) rotate(-45deg);
+  }
+}
+
+
 </style>
 </head>
 <body>
@@ -642,8 +715,16 @@ body, html {
 </header>
 
 <nav aria-label="Primary Navigation">
-  <div class="container">
-    <ul>
+  <div class="container nav-wrapper">
+    
+    <!-- HAMBURGER BUTTON -->
+    <div class="hamburger" id="hamburger">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+
+    <ul id="nav-menu">
       <li><a href="#home" class="nav-link" tabindex="0">Home</a></li>
       <li><a href="#about" class="nav-link" tabindex="0">About NCC</a></li>
       <li><a href="#activities" class="nav-link" tabindex="0">Activities</a></li>
@@ -651,6 +732,7 @@ body, html {
     </ul>
   </div>
 </nav>
+
 
 <main>
   <!-- Home Section -->
@@ -876,6 +958,25 @@ body, html {
       }
     });
   });
+
+// ----------------- MOBILE HAMBURGER TOGGLE -----------------
+const hamburger = document.getElementById("hamburger");
+const navMenu = document.getElementById("nav-menu");
+
+hamburger.addEventListener("click", () => {
+  hamburger.classList.toggle("active");
+  navMenu.classList.toggle("open");
+});
+
+// Close menu when clicking a link
+document.querySelectorAll("#nav-menu a").forEach(link => {
+  link.addEventListener("click", () => {
+    hamburger.classList.remove("active");
+    navMenu.classList.remove("open");
+  });
+});
+
+
 </script>
 
 </body>
